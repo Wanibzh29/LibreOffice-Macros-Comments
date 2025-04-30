@@ -1,4 +1,4 @@
-Sub AjouterCommentaireComplet
+Sub Ajouter_Commentaire_Categorie_Explication_Memoriser_Source_Vu_Auteur_Date_Francais()
     Dim oDoc As Object
     Dim oController As Object
     Dim oSelection As Object
@@ -42,28 +42,33 @@ Sub AjouterCommentaireComplet
 
             ' Créer la date formatée complète
             sDateFormatee = sJour & " " & Day(d) & " " & sMois & " " & Year(d) & " (" & sDateNum & ") à " & sHeure
-
+            
+             ' Créer la date du commentaire au format souhaité
+            sDateCommentaire = sJour & " " & Day(d) & " " & sMois & " " & Year(d) & _
+                               " (" & Format(Date, "DD/MM/YYYY") & ") à " & sHeure           
+            
             ' Demander les informations
-            sCategorie = InputBox("Catégorie (ex: Grammaire):", "Catégorie")
+            sCategorie = InputBox("Catégorie (ex: Grammaire) :", "Catégorie")
             sFautif = Trim(oRange.getString())
             sCorrection = InputBox("Correction suggérée pour : « " & sFautif & " »", "Correction")
-            sExplication = InputBox("Explication de l'erreur:", "Explication")
-            sMnemo = InputBox("Moyen mnémotechnique:", "Moyen mnémotechnique")
-            sSource = InputBox("Source complète:", "Source")
-            sVuLe = InputBox("Date de consultation de la source :", "Vu le", sDateFormatee)
+            sExplication = InputBox("Explication de l'erreur :", "Explication")
+            sMnemo = InputBox("Aide mémoire :", "Aide mémoire")
+            sSource = InputBox("Source complète (Nom Prénom Auteur, Titre, Année, page) :", "Source")
+            sVuLe = InputBox("Date de consultation de la source :", "Consulté le", sDateFormatee)
 
             ' Auteur du document
             sAuteur = oDoc.getDocumentProperties().Author
 
 			' Construire le commentaire
-				sCommentaire = "[Catégorie] " & sCategorie & Chr(10) & _
+			sCommentaire = "[Catégorie] " & sCategorie & Chr(10) & _
                "«" & sFautif & "» → « " & sCorrection & " »" & Chr(10) & _
                "[Explication] " & sExplication & Chr(10) & _
-               "[Moyen mnémotechnique] " & sMnemo & Chr(10) & _
+               "[Mémoriser] " & sMnemo & Chr(10) & _
                "[Source] " & sSource & Chr(10) & _
-               "[Vu le] " & sVuLe & Chr(10) & _
-               "[Auteur] " & sAuteur & _
+               "[Consulté le] " & sVuLe & Chr(10) & _
+               "[Auteur] " & sAuteur & Chr(10) & _
                "[Date du commentaire] " & sDateCommentaire & Chr(10)
+
                
 
             ' Créer et insérer l'annotation
