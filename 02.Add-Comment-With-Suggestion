@@ -1,0 +1,42 @@
+Sub AjouterCommentaireAvecSuggestion
+    Dim oDoc As Object
+    Dim oController As Object
+    Dim oSelection As Object
+    Dim oText As Object
+    Dim oRange As Object
+    Dim sTexte As String
+    Dim sSuggestion As String
+    Dim oComment As Object
+
+    oDoc = ThisComponent
+    oController = oDoc.getCurrentController()
+    oSelection = oController.getSelection()
+
+    If oSelection.getCount() > 0 Then
+        oRange = oSelection.getByIndex(0)
+
+        If oRange.supportsService("com.sun.star.text.TextRange") Then
+            sTexte = Trim(oRange.getString())
+
+            If sTexte <> "" Then
+                sSuggestion = InputBox("Proposition de remplacement pour : « " & sTexte & " »", "Suggestion")
+
+                If sSuggestion <> "" Then
+                    oComment = oDoc.createInstance("com.sun.star.text.TextField.Annotation")
+                    oComment.Author = "Correction"
+                    oComment.Content = "Remplacer « " & sTexte & " » par « " & sSuggestion & " »"
+
+                    oRange.getText().insertTextContent(oRange, oComment, False)
+                Else
+                    MsgBox "Aucune suggestion saisie. Le commentaire n'a pas été ajouté.", 64, "Info"
+                End If
+            Else
+                MsgBox "La sélection est vide.", 48, "Erreur"
+            End If
+        Else
+            MsgBox "La sélection n'est pas du texte.", 48, "Erreur"
+        End If
+    Else
+        MsgBox "Aucune sélection trouvée.", 48, "Erreur"
+    End If
+End Sub
