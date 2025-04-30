@@ -1,4 +1,4 @@
-Sub AjouterCommentaireAvecTexteSelectionne
+Sub Ajouter_Commentaire_Selection
     Dim oDoc As Object
     Dim oController As Object
     Dim oSelection As Object
